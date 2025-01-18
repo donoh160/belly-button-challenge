@@ -22,7 +22,7 @@ function buildMetadata(sample) {
     // Append key and property of each object to metadata panel
     keys.forEach((k) => {
       let displaySample = sample_metadata.append("li")
-      displaySample.text(`${k}: ${filteredSample[k]}`)
+      displaySample.text(`${k.toUpperCase()}: ${filteredSample[k]}`)
     });
 
   });
@@ -54,13 +54,30 @@ function buildCharts(sample) {
       mode: 'markers',
       marker: {
         size: sampleValues,
-        color: otuIDs
+        color: otuIDs,
+        colorscale: 'YlGnBu'
       },
       text: otuLabels
     }];
     
+    var layout = {
+      title: {
+        text: 'Bacteria Cultures Per Sample'
+      },
+      xaxis: {
+        title: {
+          text: 'OTU ID'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Number of Bacteria'
+        }
+      }
+    }
+
     // Render the Bubble Chart
-    Plotly.newPlot("bubble", bubbleData);
+    Plotly.newPlot("bubble", bubbleData, layout);
 
     // For the Bar Chart, map the otu_ids to a list of strings for your yticks
     
@@ -77,13 +94,17 @@ function buildCharts(sample) {
       y: slicedIDs.reverse(),
       orientation: 'h',
       text: slicedLabels.reverse(),
-      // hovertemplate: slicedLabels.reverse(),
       type: 'bar'
     }];
 
     var layout = {
       title: {
         text: 'Top 10 Bacteria Cultures Found'
+      },
+      xaxis: {
+        title: {
+          text: 'Number of Bacteria'
+        }
       }
     }
 
